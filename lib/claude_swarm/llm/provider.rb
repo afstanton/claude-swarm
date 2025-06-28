@@ -1,12 +1,14 @@
 module ClaudeSwarm
   module LLM
     class Provider
-      def chat(messages:, model:, tools: [])
-        raise NotImplementedError
+      attr_reader :executor
+
+      def initialize(executor)
+        @executor = executor
       end
 
-      def execute_code_snippet(snippet:, dir:)
-        raise NotImplementedError
+      def stream_execution(prompt, options = {}, &block)
+        raise NotImplementedError, "#{self.class} must implement #stream_execution"
       end
     end
   end

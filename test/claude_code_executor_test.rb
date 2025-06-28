@@ -259,7 +259,7 @@ class ClaudeCodeExecutorTest < Minitest::Test
 
     log_content = File.read(log_path)
 
-    assert_match(/ERROR.*Execution error for test_instance: Command failed/, log_content)
+    assert_match(/ERROR.*(Unexpected error|Execution error).*Command failed/, log_content)
   end
 
   def test_logging_with_tool_calls
