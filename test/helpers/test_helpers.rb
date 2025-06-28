@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "ruby_llm"
+require "ostruct"
+
 module TestHelpers
   module FileHelpers
     def with_temp_dir
@@ -49,6 +52,26 @@ module TestHelpers
       mock.expect :reset_session, nil if responses[:reset_session]
 
       mock
+    end
+
+    def stub_ruby_llm_stream(result = "", session_id: "test-session-id", &block)
+      mock_provider = Object.new
+
+      parsed_lines = result.each_line.map(&:strip).reject(&:empty?).map do |line|
+        begin
+          JSON.parse(line)
+        rescue => e
+          raise
+        end
+      end
+
+      mock_provider.define_singleton_method(:stream_execution) do |*_args, &stream_block|
+        parsed_lines.each do |parsed|
+          stream_block.call(parsed) if stream_block
+        end
+      end
+
+      ClaudeSwarm::LLM::RubyLLMProvider.stub(:new, mock_provider, &block)
     end
 
     def mock_orchestrator
@@ -244,3 +267,19 @@ module Minitest
     include TestHelpers::McpHelpers
   end
 end
+
+class FakeRubyLLMChat
+  def initialize(...)
+  end
+
+  def stream(...)
+    { "result" => "mock result" }
+  end
+
+  def ask(...)
+    OpenStruct.new(content: "Mocked response")
+  end
+end
+
+RubyLLM.send(:remove_const, :Chat) if RubyLLM.const_defined?(:Chat)
+RubyLLM::Chat = FakeRubyLLMChat

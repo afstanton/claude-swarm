@@ -5,6 +5,7 @@ require "claude_swarm/claude_code_executor"
 require "tmpdir"
 require "fileutils"
 require "stringio"
+require "ruby_llm"
 
 class ClaudeCodeExecutorTest < Minitest::Test
   def setup
@@ -20,6 +21,10 @@ class ClaudeCodeExecutorTest < Minitest::Test
       instance_name: "test_instance",
       calling_instance: "test_caller"
     )
+
+    RubyLLM.configure do |config|
+      config.anthropic_api_key = 'test_key'
+    end
   end
 
   def teardown
@@ -186,8 +191,8 @@ class ClaudeCodeExecutorTest < Minitest::Test
   end
 
   def test_execute_error_handling
-    mock_popen3("", "Error message", success: false) do
-      assert_raises(ClaudeSwarm::ClaudeCodeExecutor::ExecutionError) do
+    stub_ruby_llm_stream("") do
+      assert_raises(ClaudeSwarm::ClaudeCodeExecutor::ParseError) do
         @executor.execute("test prompt")
       end
     end
@@ -215,7 +220,7 @@ class ClaudeCodeExecutorTest < Minitest::Test
       duration: 500
     )
 
-    mock_popen3(mock_response) do
+    stub_ruby_llm_stream(mock_response) do
       response = @executor.execute("test prompt", { system_prompt: "Be helpful" })
 
       assert_equal "Test result", response["result"]
@@ -247,7 +252,7 @@ class ClaudeCodeExecutorTest < Minitest::Test
 
   def test_logging_on_execution_error
     mock_popen3("", "Command failed", success: false) do
-      assert_raises(ClaudeSwarm::ClaudeCodeExecutor::ExecutionError) do
+      assert_raises(ClaudeSwarm::ClaudeCodeExecutor::ParseError) do
         @executor.execute("test prompt")
       end
     end
@@ -269,7 +274,7 @@ class ClaudeCodeExecutorTest < Minitest::Test
       include_tool_call: true
     )
 
-    mock_popen3(mock_response) do
+    stub_ruby_llm_stream(mock_response) do
       response = @executor.execute("run ls command")
 
       assert_equal "Command executed", response["result"]

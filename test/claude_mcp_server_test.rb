@@ -8,6 +8,7 @@ require "claude_swarm/reset_session_tool"
 require "tmpdir"
 require "fileutils"
 require "stringio"
+require "ruby_llm"
 
 class ClaudeMcpServerTest < Minitest::Test
   def setup
@@ -39,6 +40,10 @@ class ClaudeMcpServerTest < Minitest::Test
 
     # Store original tool descriptions
     @original_task_description = ClaudeSwarm::TaskTool.description
+
+    RubyLLM.configure do |config|
+      config.anthropic_api_key = 'test_key'
+    end
   end
 
   def teardown
@@ -192,21 +197,7 @@ class ClaudeMcpServerTest < Minitest::Test
         duration_ms: 500, is_error: false, total_cost: 0.01, session_id: "test-session-1" }
     ].map { |obj| "#{JSON.generate(obj)}\n" }.join
 
-    # Mock popen3 for streaming
-    stdin_mock = StringIO.new
-    stdout_mock = StringIO.new(streaming_json)
-    stderr_mock = StringIO.new("")
-
-    wait_thread_stub = Object.new
-    wait_thread_stub.define_singleton_method(:value) do
-      status_stub = Object.new
-      status_stub.define_singleton_method(:success?) { true }
-      status_stub
-    end
-
-    Open3.stub :popen3, proc { |*_args, **_opts, &block|
-      block.call(stdin_mock, stdout_mock, stderr_mock, wait_thread_stub)
-    } do
+    stub_ruby_llm_stream(streaming_json) do
       tool = ClaudeSwarm::TaskTool.new
       result = tool.call(prompt: "Log this task")
 

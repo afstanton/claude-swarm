@@ -36,7 +36,7 @@ module ClaudeSwarm
 
       result_response = nil
 
-      provider = ClaudeSwarm::LLM::CLIProvider.new(self)
+      provider = ClaudeSwarm::LLM::RubyLLMProvider.new(self)
       provider.stream_execution(prompt, options) do |json_data|
         log_streaming_event(json_data)
 

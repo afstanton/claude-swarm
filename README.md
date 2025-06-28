@@ -831,6 +831,18 @@ Claude Swarm consists of these core components:
 - **ClaudeSwarm::ClaudeCodeExecutor** (`claude_code_executor.rb`): Wrapper for executing Claude commands with session persistence
 - **ClaudeSwarm::ClaudeMcpServer** (`claude_mcp_server.rb`): FastMCP-based server providing task execution, session info, and reset capabilities
 
+## Configuration
+
+To use the RubyLLMProvider with the OpenAI backend, you must configure your OpenAI API key:
+
+```ruby
+RubyLLM.configure do |config|
+  config.openai_api_key = ENV['OPENAI_API_KEY']
+end
+```
+
+You can place this code in an initializer or before any LLM usage in your application. See the full list of configuration options here: https://rubyllm.com/configuration
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
