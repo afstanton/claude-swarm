@@ -5,8 +5,8 @@ require_relative "lib/claude_swarm/version"
 Gem::Specification.new do |spec|
   spec.name = "claude_swarm"
   spec.version = ClaudeSwarm::VERSION
-  spec.authors = ["Paulo Arruda"]
-  spec.email = ["parrudaj@gmail.com"]
+  spec.authors = ["Paulo Arruda", "Aaron F Stanton"]
+  spec.email = ["parrudaj@gmail.com", "afstanton@gmail.com"]
 
   spec.summary = "Orchestrate multiple Claude Code instances as a collaborative AI development team"
   spec.description = <<~DESC
@@ -16,12 +16,12 @@ Gem::Specification.new do |spec|
     instances collaborate across codebases. Perfect for complex projects requiring specialized AI
     agents for frontend, backend, testing, DevOps, or research tasks.
   DESC
-  spec.homepage = "https://github.com/parruda/claude-swarm"
+  spec.homepage = "https://github.com/afstanton/claude-swarm"
   spec.required_ruby_version = ">= 3.2.0"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/parruda/claude-swarm"
-  spec.metadata["changelog_uri"] = "https://github.com/parruda/claude-swarm/blob/main/CHANGELOG.md"
+  spec.metadata["source_code_uri"] = "https://github.com/afstanton/claude-swarm"
+  spec.metadata["changelog_uri"] = "https://github.com/afstanton/claude-swarm/blob/main/CHANGELOG.md"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.

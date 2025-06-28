@@ -1,7 +1,11 @@
+# FORK
+
+This is a fork of [claude-swarm](https://github.com/parruda/claude-swarm), created with the intent of decoupling this from Claude.ai.
+
 # Claude Swarm
 
 [![Gem Version](https://badge.fury.io/rb/claude_swarm.svg?cache_bust=0.1.17)](https://badge.fury.io/rb/claude_swarm)
-[![CI](https://github.com/parruda/claude-swarm/actions/workflows/ci.yml/badge.svg)](https://github.com/parruda/claude-swarm/actions/workflows/ci.yml)
+[![CI](https://github.com/afstanton/claude-swarm/actions/workflows/ci.yml/badge.svg)](https://github.com/afstanton/claude-swarm/actions/workflows/ci.yml)
 
 Claude Swarm orchestrates multiple Claude Code instances as a collaborative AI development team. It enables running AI agents with specialized roles, tools, and directory contexts, communicating via MCP (Model Context Protocol) in a tree-like hierarchy. Define your swarm topology in simple YAML and let Claude instances delegate tasks through connected instances. Perfect for complex projects requiring specialized AI agents for frontend, backend, testing, DevOps, or research tasks.
 
@@ -85,7 +89,7 @@ swarm:
         - Bash
     backend:
       description: "Backend developer managing APIs and data layer"
-      directory: ./backend  
+      directory: ./backend
       model: opus
       allowed_tools:
         - Edit
@@ -125,7 +129,7 @@ swarm:
       connections: [frontend_lead, backend_lead, mobile_lead, devops]
       prompt: "You are the system architect coordinating between different service teams"
       allowed_tools: [Read, Edit, WebSearch]
-    
+
     frontend_lead:
       description: "Frontend team lead overseeing React development"
       directory: ./web-frontend
@@ -133,21 +137,21 @@ swarm:
       connections: [react_dev, css_expert]
       prompt: "You lead the web frontend team working with React"
       allowed_tools: [Read, Edit, Bash]
-    
+
     react_dev:
       description: "React developer specializing in components and state management"
       directory: ./web-frontend/src
       model: opus
       prompt: "You specialize in React components and state management"
       allowed_tools: [Edit, Write, Bash]
-    
+
     css_expert:
       description: "CSS specialist handling styling and responsive design"
       directory: ./web-frontend/styles
       model: opus
       prompt: "You handle all CSS and styling concerns"
       allowed_tools: [Edit, Write, Read]
-    
+
     backend_lead:
       description: "Backend team lead managing API development"
       directory: ./api-server
@@ -155,21 +159,21 @@ swarm:
       connections: [api_dev, database_expert]
       prompt: "You lead the API backend team"
       allowed_tools: [Read, Edit, Bash]
-    
+
     api_dev:
       description: "API developer building REST endpoints"
       directory: ./api-server/src
       model: opus
       prompt: "You develop REST API endpoints"
       allowed_tools: [Edit, Write, Bash]
-    
+
     database_expert:
       description: "Database specialist managing schemas and migrations"
       directory: ./api-server/db
       model: opus
       prompt: "You handle database schema and migrations"
       allowed_tools: [Edit, Write, Bash]
-    
+
     mobile_lead:
       description: "Mobile team lead coordinating cross-platform development"
       directory: ./mobile-app
@@ -177,21 +181,21 @@ swarm:
       connections: [ios_dev, android_dev]
       prompt: "You coordinate mobile development across platforms"
       allowed_tools: [Read, Edit]
-    
+
     ios_dev:
       description: "iOS developer building native Apple applications"
       directory: ./mobile-app/ios
       model: opus
       prompt: "You develop the iOS application"
       allowed_tools: [Edit, Write, Bash]
-    
+
     android_dev:
       description: "Android developer creating native Android apps"
       directory: ./mobile-app/android
       model: opus
       prompt: "You develop the Android application"
       allowed_tools: [Edit, Write, Bash]
-    
+
     devops:
       description: "DevOps engineer managing CI/CD and infrastructure"
       directory: ./infrastructure
@@ -342,7 +346,7 @@ swarm:
         - Read
         - Edit
         - WebSearch
-        
+
     frontend:
       description: "Frontend developer specializing in React and TypeScript"
       directory: ./frontend
@@ -353,7 +357,7 @@ swarm:
         - Edit
         - Write
         - Bash
-        
+
     backend:
       description: "Backend developer building APIs and services"
       directory: ./backend
@@ -363,7 +367,7 @@ swarm:
         - Edit
         - Write
         - Bash
-        
+
     database:
       description: "Database administrator managing data persistence"
       directory: ./db
@@ -371,7 +375,7 @@ swarm:
       allowed_tools:
         - Read
         - Bash
-        
+
     devops:
       description: "DevOps engineer handling deployment and infrastructure"
       directory: .
@@ -404,7 +408,7 @@ swarm:
         - name: arxiv
           type: sse
           url: "https://arxiv-mcp.example.com"
-          
+
     data_analyst:
       description: "Data analyst processing research data and statistics"
       directory: ~/research/data
@@ -418,7 +422,7 @@ swarm:
           type: stdio
           command: jupyter-mcp
           args: ["--notebook-dir", "."]
-          
+
     writer:
       description: "Technical writer preparing research documentation"
       directory: ~/research/papers
@@ -445,7 +449,7 @@ swarm:
       model: opus
       allowed_tools: [Read, Edit, Write, Bash]
       prompt: "You work across frontend, backend, and shared code modules"
-      
+
     documentation_writer:
       description: "Documentation specialist with access to code and docs"
       directory: ["./docs", "./src", "./examples"]  # Multiple directories as array
@@ -511,13 +515,13 @@ swarm:
       model: opus
       vibe: true  # This instance runs with --dangerously-skip-permissions
       connections: [restricted_worker, trusted_worker]
-      
+
     restricted_worker:
       description: "Worker with restricted permissions"
       directory: ./sensitive
       model: sonnet
       allowed_tools: [Read, Bash]  # Allow read and bash commands
-      
+
     trusted_worker:
       description: "Trusted worker with more permissions"
       directory: ./workspace
@@ -563,12 +567,12 @@ swarm:
       description: "Lead developer"
       directory: .
       worktree: true  # Use shared worktree name from CLI (or auto-generate)
-      
+
     testing:
-      description: "Test developer"  
+      description: "Test developer"
       directory: ./tests
       worktree: false  # Don't use worktree for this instance
-      
+
     feature_dev:
       description: "Feature developer"
       directory: ./features
@@ -629,7 +633,7 @@ claude-swarm generate --model opus          # Use a specific model
 # Show version
 claude-swarm version
 
-# Note: The permission MCP server has been deprecated. 
+# Note: The permission MCP server has been deprecated.
 # Tool permissions are now handled through allowed_tools and disallowed_tools in your configuration.
 
 # Internal command for MCP server (used by connected instances)
@@ -861,7 +865,7 @@ The gem is automatically published to RubyGems when a new release is created on 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/parruda/claude-swarm.
+Bug reports and pull requests are welcome on GitHub at https://github.com/afstanton/claude-swarm.
 
 ## License
 
