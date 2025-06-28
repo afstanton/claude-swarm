@@ -18,7 +18,10 @@ require "zeitwerk"
 loader = Zeitwerk::Loader.for_gem
 loader.ignore("#{__dir__}/claude_swarm/templates")
 loader.inflector.inflect(
-  "cli" => "CLI"
+  "cli" => "CLI",
+  "llm" => "LLM",
+  "cli_provider" => "CLIProvider",
+  "ruby_llm_provider" => "RubyLLMProvider"
 )
 loader.setup
 
