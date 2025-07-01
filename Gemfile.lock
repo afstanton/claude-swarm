@@ -28,6 +28,7 @@ GEM
       xpath (~> 3.2)
     concurrent-ruby (1.3.5)
     date (3.4.1)
+    diff-lcs (1.6.2)
     dry-configurable (1.3.0)
       dry-core (~> 1.1)
       zeitwerk (~> 2.6)
@@ -69,6 +70,11 @@ GEM
       net-http (>= 0.5.0)
     faraday-retry (2.3.2)
       faraday (~> 2.0)
+    fast-mcp (1.2.0)
+      base64
+      dry-schema (~> 1.14)
+      json (~> 2.0)
+      mime-types (~> 3.4)
     fast-mcp-annotations (1.5.3)
       addressable (~> 2.8)
       base64
@@ -149,6 +155,19 @@ GEM
     reline (0.6.1)
       io-console (~> 0.5)
     rexml (3.4.1)
+    rspec (3.13.1)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
+    rspec-core (3.13.5)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-support (3.13.4)
     rubocop (1.75.7)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -226,10 +245,12 @@ PLATFORMS
 
 DEPENDENCIES
   claude_swarm!
+  fast-mcp
   headless_browser_tool
   irb
   minitest (~> 5.16)
   rake (~> 13.0)
+  rspec
   rubocop (~> 1.21)
   rubocop-minitest
   rubocop-rake
